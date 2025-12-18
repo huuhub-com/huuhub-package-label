@@ -26,41 +26,43 @@ export async function generatePreShipMemoLabelPNG(
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-    let y = 40;
+    let y = 20;
     const paddingTop = 50;
     const LEFT = 50;
     const DELTA = 45;
     const ROTATE = 90 * Math.PI / 180; // 右回転 90°
     // 宛名（最重要）
     ctx.fillStyle = "#000";
-    ctx.font = "bold 48px NotoSansJP";
+    y += 40;
+    ctx.font = "bold 40px NotoSansJP";
     drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
         ctx.fillText(`${input.toName} 様`, 0, 0);
     });
-    y += 50;
-    // 住所
-    ctx.font = "32px NotoSansJP";
+    y += 80;
+    ctx.font = "bold 80px NotoSansJP";
     drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
-        ctx.fillText(`〒${input.toPostalCode}`, 0, 0);
+        ctx.fillText(`${shortPackageId(input.packageId)} ${input.itemNum}個`, 0, 0);
     });
-    y += 40;
-
-    // Order / Package
+    y += 30;
     ctx.font = "bold 30px NotoSansJP";
     drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
-        ctx.fillText(`orderId:${input.orderId}`, 0, 0);
+        ctx.fillText(`${input.orderId}`, 0, 0);
     });
     y += 40;
-    drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
-        ctx.fillText(`packageId:${input.packageId}`, 0, 0);
-    });
-    y += 42;
+    ctx.font = "bold 35px NotoSansJP";
     drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
         wrapText(ctx, input.toFullAddress, 0, 0, HEIGHT - 80, 40);
     });
 
     return canvas.toBuffer("image/png");
 }
+
+function shortPackageId(id: string, head = 3, tail = 4): string {
+    if (!id) return "";
+    if (id.length <= head + tail) return id;
+    return `${id.slice(0, head)}…${id.slice(-tail)}`;
+}
+
 
 // 簡易改行
 function wrapText(

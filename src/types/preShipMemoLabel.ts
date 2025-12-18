@@ -6,4 +6,5 @@ export type PreShipMemoLabelInput = {
 
   orderId: string;
   packageId: string; // "01" など
+  itemNum:string;
 };

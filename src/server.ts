@@ -60,7 +60,8 @@ app.post("/generate-pre-ship-memo", async (req, res) => {
       toPostalCode: String(body.toPostalCode),
       toFullAddress: String(body.toFullAddress),
       orderId: String(body.orderId),
-      packageId: String(body.packageId)
+      packageId: String(body.packageId),
+      itemNum:String(body.itemNum),
     });
 
     // =====================================================
