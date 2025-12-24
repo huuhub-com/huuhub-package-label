@@ -10,9 +10,8 @@ const FONT_PATH = path.join(__dirname, "../fonts/BIZUDPGothic-Bold.ttf");
 
 registerFont(FONT_PATH, { family: "NotoSansJP" });
 
-const mm2px = (mm: number) => Math.round(mm * 11.811); // 300dpi想定
+const mm2px = (mm: number) => Math.round(mm * 11.811);
 
-// 62mm × 100mm
 const WIDTH = mm2px(29);
 const HEIGHT = mm2px(90);
 
@@ -38,10 +37,10 @@ export async function generatePreShipMemoLabelPNG(
     drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
         ctx.fillText(`${input.toName} 様`, 0, 0);
     });
-    y += 80;
-    ctx.font = "bold 80px NotoSansJP";
+    y += 90;
+    ctx.font = "bold 90px NotoSansJP";
     drawRotated(ctx, WIDTH - y - paddingTop, LEFT, ROTATE, () => {
-        ctx.fillText(`${shortPackageId(input.packageId)} ${input.itemNum}個`, 0, 0);
+        ctx.fillText(`${shortPackageId(input.packageId)} (${input.itemNum}点)`, 0, 0);
     });
     y += 30;
     ctx.font = "bold 30px NotoSansJP";
@@ -57,7 +56,7 @@ export async function generatePreShipMemoLabelPNG(
     return canvas.toBuffer("image/png");
 }
 
-function shortPackageId(id: string, head = 3, tail = 4): string {
+function shortPackageId(id: string, head = 3, tail = 5): string {
     if (!id) return "";
     if (id.length <= head + tail) return id;
     return `${id.slice(0, head)}…${id.slice(-tail)}`;
